@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claudio Greco — Machine Learning Scientist & Engineer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* TEMA SCURO (Default) */
+        :root {
+            --bg-color: #0a0a0a;
+            --text-main: #f5f5f5;
+            --text-muted: #8e8e93;
+            --accent: #ffffff;
+            --border-color: #222222;
+        }
+
+        /* TEMA CHIARO */
+        :root.light-theme {
+            --bg-color: #fafafa;
+            --text-main: #111111;
+            --text-muted: #666666;
+            --accent: #000000;
+            --border-color: #e5e5e5;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 80px 24px;
+            display: flex;
+            justify-content: center;
+            transition: background-color 0.15s ease, color 0.15s ease;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 720px;
+            position: relative;
+        }
+
+        /* --- BOTTONE SWITCH TEMA (PULITO SENZA BORDO) --- */
+        .theme-toggle {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: color 0.2s ease, background-color 0.2s ease;
+        }
+
+        .theme-toggle:hover {
+            color: var(--accent);
+            background-color: var(--border-color);
+        }
+
+        .theme-toggle svg {
+            width: 22px;
+            height: 22px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Mostra Sole se Dark, Mostra Luna se Light */
+        .theme-toggle .icon-sun { display: block; }
+        .theme-toggle .icon-moon { display: none; }
+
+        :root.light-theme .theme-toggle .icon-sun { display: none; }
+        :root.light-theme .theme-toggle .icon-moon { display: block; }
+
+        /* --- HEADER --- */
+        header {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            margin-bottom: 60px;
+        }
+
+        .profile-img {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid var(--border-color);
+            flex-shrink: 0;
+        }
+
+        .header-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 500;
+            letter-spacing: -0.03em;
+            margin-bottom: 4px;
+            color: var(--accent);
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            margin-bottom: 16px;
+        }
+
+        .links-container {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.2s ease;
+        }
+
+        .social-link:hover {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+
+        /* --- SECTIONS --- */
+        section {
+            margin-bottom: 64px;
+        }
+
+        h2 {
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .about-text { 
+            font-size: 1.05rem;
+            font-weight: 300; 
+        }
+        
+        .about-text p { 
+            margin-bottom: 20px; 
+        }
+
+        /* --- TIMELINE ITEMS --- */
+        .item { padding: 20px 0; border-bottom: 1px dashed var(--border-color); }
+        .item:last-child { border-bottom: none; }
+        .item-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; gap: 16px; }
+        
+        .item-title { 
+            font-size: 1.1rem;
+            font-weight: 500; 
+            color: var(--accent); 
+        }
+        
+        .item-org { 
+            font-size: 1.05rem;
+            color: var(--text-main); 
+            font-weight: 400; 
+        }
+        
+        .item-date { 
+            font-size: 0.95rem;
+            color: var(--text-muted); 
+            white-space: nowrap; 
+            font-variant-numeric: tabular-nums; 
+        }
+        
+        .item-meta { 
+            font-size: 0.95rem;
+            color: var(--text-muted); 
+            margin-bottom: 12px; 
+            display: flex; 
+            gap: 8px; 
+            align-items: center; 
+        }
+        
+        .item-desc { 
+            font-size: 0.98rem;
+            color: var(--text-muted); 
+            font-weight: 300; 
+        }
+        
+        .item-desc ul { list-style: none; }
+        .item-desc li { position: relative; padding-left: 16px; margin-bottom: 6px; }
+        
+        /* Fix visibilità del punto elenco */
+        .item-desc li::before { 
+            content: "•"; 
+            position: absolute; 
+            left: 0; 
+            color: var(--text-muted); /* Ora ha lo stesso contrasto leggibile del testo */
+        }
+
+        footer { margin-top: 80px; font-size: 0.85rem; color: var(--text-muted); text-align: center; }
+
+        @media (max-width: 600px) {
+            body { padding: 60px 16px; }
+            .theme-toggle { top: -50px; }
+            header { flex-direction: column; align-items: flex-start; gap: 16px; }
+            .item-header { flex-direction: column; gap: 4px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <button class="theme-toggle" id="themeToggle" title="Cambia tema">
+            <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>
+            <svg class="icon-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
+        </button>
+
+        <header>
+            <img src="profile.png" alt="Claudio Greco" class="profile-img">
+            <div class="header-text">
+                <h1>Claudio Greco</h1>
+                <div class="subtitle">Machine Learning Scientist & Engineer</div>
+                
+                <div class="links-container">
+                    <a href="mailto:claudiogaetanogreco@gmail.com" class="social-link">Email</a>
+                    <a href="https://x.com" target="_blank" class="social-link">X</a>
+                    <a href="https://linkedin.com" target="_blank" class="social-link">LinkedIn</a>
+                </div>
+            </div>
+        </header>
+
+        <section id="about">
+            <h2>About Me</h2>
+            <div class="about-text">
+                <p>Hello, I'm Claudio Greco, a Member of Technical Staff at <strong>Reka AI</strong> working on large multimodal foundation models and multimodal agents.</p>
+                <p>In the past, I've been a Research Engineer at <strong>Alana AI</strong>, where I worked on building multimodal foundation models, and a Research Fellow at <strong>Heriot-Watt University</strong>, where I worked on designing trustworthy conversational agents.</p>
+                <p>Before that, I obtained a PhD in Cognitive and Brain Sciences at the Center for Mind/Brain Sciences of the <strong>University of Trento</strong> working in the Language and Vision Research Group under the supervision of Raffaella Bernardi. Before enrolling in my Ph.D program, I obtained B.Sc. and M.Sc. degrees in Computer Science at the <strong>University of Bari</strong>, where I worked on social network analysis and (conversational) recommender systems, respectively.</p>
+            </div>
+        </section>
+
+        <section id="experience">
+            <h2>Experience</h2>
+            
+            <div class="item">
+                <div class="item-header">
+                    <span class="item-title">Member of Technical Staff</span>
+                    <span class="item-date">Set 2024 – Presente</span>
+                </div>
+                <div class="item-meta">
+                    <span class="item-org">Reka AI</span>
+                    <span>•</span>
+                    <span>Sunnyvale, California (Remote)</span>
+                </div>
+                <div class="item-desc">
+                    Working on large multimodal foundation models and multimodal agents.
+                </div>
+            </div>
+
+            <div class="item">
+                <div class="item-header">
+                    <span class="item-title">Research Engineer</span>
+                    <span class="item-date">Mar 2023 – Ago 2024</span>
+                </div>
+                <div class="item-meta">
+                    <span class="item-org">Alana AI</span>
+                    <span>•</span>
+                    <span>Edinburgh, United Kingdom</span>
+                </div>
+                <div class="item-desc">
+                    <ul>
+                        <li>Designed, developed and trained from scratch a Multimodal (Vision & Language) Large Foundation Model, scaling the training process up to 7 billion parameters.</li>
+                        <li>Built an instruction-tuning dataset for Egocentric Video Understanding.</li>
+                        <li>Fine-tuned an open-source Multimodal Large Foundation Model on the Egocentric Video Understanding dataset using LoRa, showcasing competitive results compared to Gemini Pro 1.5 and GPT-4V, even surpassing the latter in spatial reasoning, and outperforming open-source models.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="item">
+                <div class="item-header">
+                    <span class="item-title">Research Fellow in Conversational Systems</span>
+                    <span class="item-date">Feb 2022 – Gen 2023</span>
+                </div>
+                <div class="item-meta">
+                    <span class="item-org">Heriot-Watt University</span>
+                    <span>•</span>
+                    <span>Edinburgh, United Kingdom</span>
+                </div>
+                <div class="item-desc">
+                    Worked on a project which involved building trustworthy conversational agents able to adapt during conversations to align with human values in the UKRI TAS Node on Trust. During the project, collected a dataset of trust annotations on Amazon Mechanical Turk.
+                </div>
+            </div>
+
+            <div class="item">
+                <div class="item-header">
+                    <span class="item-title">Research Internship</span>
+                    <span class="item-date">Giu 2019 – Nov 2019</span>
+                </div>
+                <div class="item-meta">
+                    <span class="item-org">SAP</span>
+                    <span>•</span>
+                    <span>Berlin, Germany</span>
+                </div>
+                <div class="item-desc">
+                    Worked on Continual Learning and Multimodal Learning.
+                </div>
+            </div>
+        </section>
+
+        <section id="education">
+            <h2>Education</h2>
+
+            <div class="item">
+                <div class="item-header">
+                    <span class="item-title">PhD in Cognitive and Brain Sciences</span>
+                    <span class="item-date">2017 - 2022</span>
+                </div>
+                <div class="item-meta">
+                    <span class="item-org">University of Trento</span>
+                    <span>•</span>
+                    <span>Rovereto, Italy</span>
+                </div>
+                <div class="item-desc">
+                    <strong>Thesis:</strong> Transfer Learning and Attention Mechanisms in a Multimodal Setting.<br>
+                    <strong>Topics:</strong> Continual / Transfer Learning, Transformers, and Multimodal Learning.<br>
+                    <strong>Supervisor:</strong> Raffaella Bernardi.
+                </div>
+            </div>
+
+            <div class="item">
+                <div class="item-header">
+                    <span class="item-title">Master's degree in Computer Science</span>
+                    <span class="item-date">2014 - 2017</span>
+                </div>
+                <div class="item-meta">
+                    <span class="item-org">University of Bari</span>
+                    <span>•</span>
+                    <span>Bari, Italy</span>
+                </div>
+                <div class="item-desc">
+                    Grade: 110/110 cum laude and special commendation. Thesis on building a conversational content-based recommender system based on hierarchical deep reinforcement learning techniques.
+                </div>
+            </div>
+
+            <div class="item">
+                <div class="item-header">
+                    <span class="item-title">Bachelor's degree in Computer Science</span>
+                    <span class="item-date">2008 - 2013</span>
+                </div>
+                <div class="item-meta">
+                    <span class="item-org">University of Bari</span>
+                    <span>•</span>
+                    <span>Bari, Italy</span>
+                </div>
+                <div class="item-desc">
+                    Grade: 110/110 cum laude. Thesis on discovering and tracking organizational structures built from event logs over time exploiting social network analysis techniques.
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>© Claudio Greco</p>
+        </footer>
+
+    </div>
+
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const htmlElement = document.documentElement;
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            htmlElement.classList.add('light-theme');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            htmlElement.classList.toggle('light-theme');
+            const isLight = htmlElement.classList.contains('light-theme');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        });
+    </script>
+</body>
+</html>
