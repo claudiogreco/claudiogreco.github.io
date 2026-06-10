@@ -387,18 +387,15 @@
 
     </div>
 
-    <script>
+<script>
         const themeToggle = document.getElementById('themeToggle');
         const htmlElement = document.documentElement;
 
-        // 1. Check preference stored in the browser local storage
+        // 1. Only check if the user manually toggled the theme before on this site
         const savedTheme = localStorage.getItem('theme');
         
-        // 2. Check system color scheme preference (true if OS is set to Dark)
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-        // Apply dark theme if user explicitly chose it before, or if no preference exists but OS is dark
-        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+        // 2. If they chose dark in a past visit, apply it. Otherwise, stay light by default.
+        if (savedTheme === 'dark') {
             htmlElement.classList.add('dark-theme');
         }
 
