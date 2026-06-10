@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,22 +9,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <style>
-        /* TEMA SCURO (Default) */
+        /* LIGHT THEME (Default) */
         :root {
-            --bg-color: #0a0a0a;
-            --text-main: #f5f5f5;
-            --text-muted: #8e8e93;
-            --accent: #ffffff;
-            --border-color: #222222;
-        }
-
-        /* TEMA CHIARO */
-        :root.light-theme {
             --bg-color: #fafafa;
             --text-main: #111111;
             --text-muted: #666666;
             --accent: #000000;
             --border-color: #e5e5e5;
+        }
+
+        /* DARK THEME */
+        :root.dark-theme {
+            --bg-color: #0a0a0a;
+            --text-main: #f5f5f5;
+            --text-muted: #8e8e93;
+            --accent: #ffffff;
+            --border-color: #222222;
         }
 
         * {
@@ -50,7 +50,7 @@
             position: relative;
         }
 
-        /* --- BOTTONE SWITCH TEMA (PULITO SENZA BORDO) --- */
+        /* --- THEME TOGGLE BUTTON (CLEAN WITHOUT BORDER) --- */
         .theme-toggle {
             position: absolute;
             top: -40px;
@@ -82,12 +82,12 @@
             stroke-linejoin: round;
         }
 
-        /* Mostra Sole se Dark, Mostra Luna se Light */
-        .theme-toggle .icon-sun { display: block; }
-        .theme-toggle .icon-moon { display: none; }
+        /* Icon logic: show Moon in Light mode, show Sun in Dark mode */
+        .theme-toggle .icon-moon { display: block; }
+        .theme-toggle .icon-sun { display: none; }
 
-        :root.light-theme .theme-toggle .icon-sun { display: none; }
-        :root.light-theme .theme-toggle .icon-moon { display: block; }
+        :root.dark-theme .theme-toggle .icon-moon { display: none; }
+        :root.dark-theme .theme-toggle .icon-sun { display: block; }
 
         /* --- HEADER --- */
         header {
@@ -212,12 +212,12 @@
         .item-desc ul { list-style: none; }
         .item-desc li { position: relative; padding-left: 16px; margin-bottom: 6px; }
         
-        /* Fix visibilità del punto elenco */
+        /* Bullet points with proper visibility and contrast */
         .item-desc li::before { 
             content: "•"; 
             position: absolute; 
             left: 0; 
-            color: var(--text-muted); /* Ora ha lo stesso contrasto leggibile del testo */
+            color: var(--text-muted); 
         }
 
         footer { margin-top: 80px; font-size: 0.85rem; color: var(--text-muted); text-align: center; }
@@ -234,9 +234,9 @@
 
     <div class="container">
         
-        <button class="theme-toggle" id="themeToggle" title="Cambia tema">
-            <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>
+        <button class="theme-toggle" id="themeToggle" title="Toggle theme">
             <svg class="icon-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
+            <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>
         </button>
 
         <header>
@@ -268,7 +268,7 @@
             <div class="item">
                 <div class="item-header">
                     <span class="item-title">Member of Technical Staff</span>
-                    <span class="item-date">Set 2024 – Presente</span>
+                    <span class="item-date">Sep 2024 – Present</span>
                 </div>
                 <div class="item-meta">
                     <span class="item-org">Reka AI</span>
@@ -283,7 +283,7 @@
             <div class="item">
                 <div class="item-header">
                     <span class="item-title">Research Engineer</span>
-                    <span class="item-date">Mar 2023 – Ago 2024</span>
+                    <span class="item-date">Mar 2023 – Aug 2024</span>
                 </div>
                 <div class="item-meta">
                     <span class="item-org">Alana AI</span>
@@ -302,7 +302,7 @@
             <div class="item">
                 <div class="item-header">
                     <span class="item-title">Research Fellow in Conversational Systems</span>
-                    <span class="item-date">Feb 2022 – Gen 2023</span>
+                    <span class="item-date">Feb 2022 – Jan 2023</span>
                 </div>
                 <div class="item-meta">
                     <span class="item-org">Heriot-Watt University</span>
@@ -317,7 +317,7 @@
             <div class="item">
                 <div class="item-header">
                     <span class="item-title">Research Internship</span>
-                    <span class="item-date">Giu 2019 – Nov 2019</span>
+                    <span class="item-date">Jun 2019 – Nov 2019</span>
                 </div>
                 <div class="item-meta">
                     <span class="item-org">SAP</span>
@@ -391,15 +391,22 @@
         const themeToggle = document.getElementById('themeToggle');
         const htmlElement = document.documentElement;
 
+        // 1. Check preference stored in the browser local storage
         const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'light') {
-            htmlElement.classList.add('light-theme');
+        
+        // 2. Check system color scheme preference (true if OS is set to Dark)
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        // Apply dark theme if user explicitly chose it before, or if no preference exists but OS is dark
+        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+            htmlElement.classList.add('dark-theme');
         }
 
+        // Manual theme switch on button click
         themeToggle.addEventListener('click', () => {
-            htmlElement.classList.toggle('light-theme');
-            const isLight = htmlElement.classList.contains('light-theme');
-            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            htmlElement.classList.toggle('dark-theme');
+            const isDark = htmlElement.classList.contains('dark-theme');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
         });
     </script>
 </body>
